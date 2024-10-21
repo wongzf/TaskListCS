@@ -1,4 +1,14 @@
-﻿using Microsoft.VisualBasic;
+﻿/*
+ * File: Program.cs
+ * Description: Contains a simple Task List Manager program
+ *              for the technical interview of Yokogawa.
+ * Author: Wong Zi Feng
+ * Created: 22-10-2024
+ * Version: 1.0
+ * 
+ */
+
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -20,9 +30,9 @@ public class Program
             Console.WriteLine("\nWZF Task List");
             Console.WriteLine("==========================================================");
             DisplayAllTasks();
-            Console.WriteLine("1. Add Task            2. Change Task Status");
-            Console.WriteLine("3. Delete Task         4. Sort by Completion Status");
-            Console.WriteLine("5. Sort by Due Date    0. Exit Program      ");
+            Console.WriteLine("1. Add Task                 4. Sort by Completion Status");
+            Console.WriteLine("2. Change Task Status       5. Sort by Due Date");
+            Console.WriteLine("3. Delete Task              0. Exit Program");
             Console.Write("Input number to choose option: ");
             //Read User Input
             var input = Console.ReadLine();
@@ -53,9 +63,17 @@ public class Program
                     break;
 
                 case "4":
+                    Console.WriteLine("\n==========================================================");
+                    Console.WriteLine("Sort by Completion Status");
+                    Console.WriteLine("----------------------------------------------------------");
+                    SortTasksByCompletionStatus();
                     break;
 
                 case "5":
+                    Console.WriteLine("\n==========================================================");
+                    Console.WriteLine("Sort by Due Date");
+                    Console.WriteLine("----------------------------------------------------------");
+                    SortTasksByDueDate();
                     break;
 
                 case "0":
@@ -63,13 +81,6 @@ public class Program
                     Console.WriteLine("Exit Program");
                     Console.WriteLine("==========================================================");
                     isRunning = false;
-                    break;
-
-                case "100":
-                    Console.WriteLine("\n==========================================================");
-                    Console.WriteLine("Debug Test Command");
-                    Console.WriteLine("----------------------------------------------------------");
-                    DebugTest();
                     break;
 
                 default:
@@ -81,12 +92,15 @@ public class Program
 
 
 
-    //Function to Create a task and add it to the TaskList List
+    /*
+     * AddTask() - Creates a task from user input and adds it to the tasklist
+     */
     private static void AddTask()
     {
         Console.Write("Input Task Text: ");
         var taskName = Console.ReadLine();
 
+        //Change the input format to a more common DD-MM-YYYY instead of YYYY-MM-DD
         Console.Write("Enter Due Date (dd-mm-yyyy): ");
         DateTime dueDate;
         while (!DateTime.TryParseExact(Console.ReadLine(), "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out dueDate))
@@ -94,6 +108,7 @@ public class Program
             Console.Write("Invalid date format! Please enter the date (dd-mm-yyyy): ");
         }
 
+        //Change setting the status from true/false to Yes/No
         Console.Write("Is the task completed? (Y/N): ");
         bool isCompleted = false;
         string completionInput = "";
@@ -117,10 +132,13 @@ public class Program
             Task newTask = new Task(taskName, dueDate, isCompleted);
             TaskList.Add(newTask);
             Console.WriteLine("Task added successfully!");
-            ReturnToMainMenu();
+            //ReturnToMainMenu();
         }
     }
 
+    /*
+     * DeleteTask() - Prints all task with numbers and let user select a task to remove from the tasklist
+     */
     private static void DeleteTask()
     {
         //If tasklist is empty
@@ -179,11 +197,13 @@ public class Program
                 Console.WriteLine("Task deletion cancelled.");
             }
 
-            ReturnToMainMenu();
+            //ReturnToMainMenu();
         }
     }
 
-    //Function to print all task
+    /*
+     * DisplayAllTask() - Prints all tasks from tasklist
+     */
     private static void DisplayAllTasks()
     {
         // If there are no task, Show "No task Available"
@@ -205,6 +225,9 @@ public class Program
         Console.WriteLine("==========================================================");
     }
 
+    /*
+     * ChangeTaskStatus() - Changes the completion status of a task from "Incomplete" to "Complete" and vice versa
+     */
     private static void ChangeTaskStatus()
     {
         //If tasklist is empty
@@ -259,10 +282,33 @@ public class Program
                 Console.ResetColor();
             }
             //Console.WriteLine("Returning to Main Menu...");
-            ReturnToMainMenu();
+            //ReturnToMainMenu();
         }
     }
 
+    /*
+     * SortTasksByCompletionStatus() - Sorts all tasks in tasklist by completion status. Incomplete first, Completed last.
+     */
+    private static void SortTasksByCompletionStatus() 
+    {
+        TaskList.Sort((task1, task2) => task1.IsCompleted.CompareTo(task2.IsCompleted));
+        Console.WriteLine("Tasks sorted by Completion Status.");
+        Console.WriteLine("Returning to Main Menu...");
+    }
+
+    /*
+     * SortTasksByDueDate() - Sorts all tasks in tasklist by due date, earliest to latest.
+     */
+    private static void SortTasksByDueDate() 
+    {
+        TaskList.Sort((task1, task2) => task1.DueDate.CompareTo(task2.DueDate));
+        Console.WriteLine("Tasks sorted by Due Date.");
+        Console.WriteLine("Returning to Main Menu...");
+    }
+
+    /*
+     * ReturnToMainMenu() - Makes the user input "Enter" before loading the Main menu again. DEPRECATED FOR NOW
+     */
     private static void ReturnToMainMenu()
     {
         Console.WriteLine("==========================================================\n");
@@ -271,11 +317,8 @@ public class Program
         // Only allow the Enter key to proceed
         while (Console.ReadKey(true).Key != ConsoleKey.Enter)
         {
-            Console.Clear();
+
         }
-    }
-    private static void DebugTest() 
-    {
     }
 }
 
