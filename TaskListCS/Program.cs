@@ -18,8 +18,7 @@ public class Program
             //Print Instruction lines
             
             Console.WriteLine("\nWZF Task List");
-            Console.ResetColor();
-            Console.WriteLine("=========================================");
+            Console.WriteLine("==========================================================");
             Console.WriteLine("1. Add Task");
             Console.WriteLine("2. Display All Tasks");
             Console.WriteLine("3. Change Task Status");
@@ -32,23 +31,35 @@ public class Program
             switch (input) 
             {
                 case "1" :
-                    Console.WriteLine("Add Task Selected!");
+                    Console.WriteLine("\n==========================================================");
+                    Console.WriteLine("Add Task");
+                    Console.WriteLine("----------------------------------------------------------");
                     AddTask();
+                    Console.WriteLine("==========================================================");
                     break;
 
                 case "2" :
-                    Console.WriteLine("Display Task Selected!");
+                    Console.WriteLine("\n==========================================================");
+                    Console.WriteLine("Display Task");
+                    Console.WriteLine("----------------------------------------------------------");
                     DisplayAllTasks();
+                    Console.WriteLine("==========================================================");
                     break;
 
                 case "3" :
-                    Console.WriteLine("Change Task Status Selected!");
+                    Console.WriteLine("\n==========================================================");
+                    Console.WriteLine("Change Task Status");
+                    Console.WriteLine("----------------------------------------------------------");
                     ChangeTaskStatus();
+                    Console.WriteLine("==========================================================");
                     break;
 
                 case "0" :
-                    Console.WriteLine("Exit Program Selected!");
+                    Console.WriteLine("\n==========================================================");
+                    Console.WriteLine("Exit Program");
+                    Console.WriteLine("==========================================================");
                     isRunning = false;
+
                     break;
 
                 default:
@@ -63,21 +74,21 @@ public class Program
     //Function to Create a task and add it to the TaskList List
     private static void AddTask() 
     {
-        Console.WriteLine("Input Task Text: ");
+        Console.Write("Input Task Text: ");
         var taskName = Console.ReadLine();
 
-        Console.WriteLine("Enter Due Date (yyyy-mm-dd): ");
+        Console.Write("Enter Due Date (dd-mm-yyyy): ");
         DateTime dueDate;
-        while (!DateTime.TryParse(Console.ReadLine(), out dueDate))
+        while (!DateTime.TryParseExact(Console.ReadLine(), "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out dueDate))
         {
-            Console.WriteLine("Invalid date format! Please enter the date (yyyy-mm-dd): ");
+            Console.Write("Invalid date format! Please enter the date (dd-mm-yyyy): ");
         }
         
-        Console.WriteLine("Is the Task completed? (true/false)");
+        Console.Write("Is the Task completed? (true/false): ");
         bool isCompleted;
         while (!bool.TryParse(Console.ReadLine(), out isCompleted))
         {
-            Console.WriteLine("Invalid input! Please enter true or false: ");
+            Console.Write("Invalid input! Please enter true or false: ");
         }
         
         Task newTask = new Task(taskName, dueDate, isCompleted);
@@ -96,8 +107,8 @@ public class Program
         else
         {
             // Table Header, needs further formatting to look nice
-            Console.WriteLine("\nAll Tasks || Due Date || Status");
-            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("All Tasks || Due Date || Status");
+            Console.WriteLine("----------------------------------------------------------"); ;
             //Loop thru TaskList list to cout all task
             for (int i = 0; i < TaskList.Count; i++)
             {
@@ -117,7 +128,7 @@ public class Program
         {
             // Table Header, needs further formatting to look nice
             Console.WriteLine("\nNo. || All Tasks || Due Date || Status");
-            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("----------------------------------------------------------"); ;
             //Loop thru TaskList list to cout all task
             for (int i = 0; i < TaskList.Count; i++)
             {
@@ -133,7 +144,7 @@ public class Program
         //Check if user input is invalid, NaN or OOB.
         while (!int.TryParse(Console.ReadLine(), out taskNo) || taskNo < 0 || taskNo > TaskList.Count)
         {
-            Console.WriteLine("Invalid input! Please enter a valid task number: ");
+            Console.Write("Invalid input! Please enter a valid task number: ");
         }
 
         if (taskNo == 0)
@@ -145,24 +156,22 @@ public class Program
         {
             // Toggle completion status
             TaskList[taskNo - 1].IsCompleted = !TaskList[taskNo - 1].IsCompleted;
-            string IsCompletedText = "INCOMPLETE";
 
             Console.Write("Task No." + taskNo + " completion status updated to: ");
             if (TaskList[taskNo - 1].IsCompleted == true) 
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                IsCompletedText = "COMPLETE";
-                Console.Write(IsCompletedText + "\n");
+                Console.Write("COMPLETE\n");
                 Console.ResetColor();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                IsCompletedText = "INCOMPLETE";
-                Console.Write(IsCompletedText + "\n");
+                Console.Write("INCOMPLETE\n");
                 Console.ResetColor();
             }
             Console.WriteLine("Returning to Main Menu...");
+            
         }
         
     }
@@ -175,10 +184,10 @@ public class Task
     public string TaskText { get; set; } // Auto Getter and Setter
 
     private DateTime duedate; // When is the task due? 
-    public DateTime DueDate { get; set; } // Auto Getter and Setter
+    public DateTime DueDate { get; set; }
 
     private bool iscompleted; // Is the task completed?
-    public bool IsCompleted { get; set; } // Auto Getter and Setter
+    public bool IsCompleted { get; set; }
 
     // Constructor for Task
     public Task(string taskText, DateTime dueDate, bool isCompleted)
@@ -190,21 +199,18 @@ public class Task
 
     public void PrintTask() 
     {
-        Console.Write(TaskText + " || " + DueDate + " || ");
-        string IsCompletedText;
+        Console.Write(TaskText + " || " + DueDate.ToString("dd-MM-yyyy") + " || ");
         //Set Completed text instead of just True/False
         if (IsCompleted)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            IsCompletedText = "COMPLETE";
-            Console.Write(IsCompletedText + "\n");
+            Console.Write("COMPLETE\n");
             Console.ResetColor();
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            IsCompletedText = "INCOMPLETE";
-            Console.Write(IsCompletedText + "\n");
+            Console.Write("INCOMPLETE\n");
             Console.ResetColor();
         }
     }
