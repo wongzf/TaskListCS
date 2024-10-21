@@ -21,7 +21,8 @@ public class Program
             Console.WriteLine("==========================================================");
             DisplayAllTasks();
             Console.WriteLine("1. Add Task            2. Change Task Status");
-            Console.WriteLine("3. Delete Task         0. Exit Program      ");
+            Console.WriteLine("3. Delete Task         4. Sort by Completion Status");
+            Console.WriteLine("5. Sort by Due Date    0. Exit Program      ");
             Console.Write("Input number to choose option: ");
             //Read User Input
             var input = Console.ReadLine();
@@ -49,6 +50,12 @@ public class Program
                     Console.WriteLine("Delete Task");
                     Console.WriteLine("----------------------------------------------------------");
                     DeleteTask();
+                    break;
+
+                case "4":
+                    break;
+
+                case "5":
                     break;
 
                 case "0":
