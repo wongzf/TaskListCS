@@ -13,10 +13,10 @@ public class Program
     {
         bool isRunning = true; //Bool if system is still running, switch to 'false' to shut down
 
-        while (isRunning) 
+        while (isRunning)
         {
             //Print Instruction lines
-            
+
             Console.WriteLine("\nWZF Task List");
             Console.WriteLine("==========================================================");
             Console.WriteLine("1. Display All Tasks");
@@ -29,16 +29,15 @@ public class Program
             var input = Console.ReadLine();
 
             //Switch Statement based on user input
-            switch (input) 
+            switch (input)
             {
-                
 
-                case "1" :
+
+                case "1":
                     Console.WriteLine("\n==========================================================");
                     Console.WriteLine("Display All Tasks");
                     Console.WriteLine("----------------------------------------------------------");
                     DisplayAllTasks();
-                    Console.WriteLine("==========================================================");
                     break;
 
                 case "2":
@@ -46,15 +45,13 @@ public class Program
                     Console.WriteLine("Add Task");
                     Console.WriteLine("----------------------------------------------------------");
                     AddTask();
-                    Console.WriteLine("==========================================================");
                     break;
 
-                case "3" :
+                case "3":
                     Console.WriteLine("\n==========================================================");
                     Console.WriteLine("Change Task Status");
                     Console.WriteLine("----------------------------------------------------------");
                     ChangeTaskStatus();
-                    Console.WriteLine("==========================================================");
                     break;
 
                 case "4":
@@ -62,15 +59,20 @@ public class Program
                     Console.WriteLine("Delete Task");
                     Console.WriteLine("----------------------------------------------------------");
                     DeleteTask();
-                    Console.WriteLine("==========================================================");
                     break;
 
-                case "0" :
+                case "0":
                     Console.WriteLine("\n==========================================================");
                     Console.WriteLine("Exit Program");
                     Console.WriteLine("==========================================================");
                     isRunning = false;
+                    break;
 
+                case "100":
+                    Console.WriteLine("\n==========================================================");
+                    Console.WriteLine("Debug Test Command");
+                    Console.WriteLine("----------------------------------------------------------");
+                    DebugTest();
                     break;
 
                 default:
@@ -80,10 +82,10 @@ public class Program
         }
     }
 
-    
+
 
     //Function to Create a task and add it to the TaskList List
-    private static void AddTask() 
+    private static void AddTask()
     {
         Console.Write("Input Task Text: ");
         var taskName = Console.ReadLine();
@@ -94,20 +96,21 @@ public class Program
         {
             Console.Write("Invalid date format! Please enter the date (dd-mm-yyyy): ");
         }
-        
+
         Console.Write("Is the Task completed? (true/false): ");
         bool isCompleted;
         while (!bool.TryParse(Console.ReadLine(), out isCompleted))
         {
             Console.Write("Invalid input! Please enter true or false: ");
         }
-        
+
         Task newTask = new Task(taskName, dueDate, isCompleted);
         TaskList.Add(newTask);
-        Console.WriteLine("Task added successfully! Returning to Main Menu...");
+        Console.WriteLine("Task added successfully!");
+        ReturnToMainMenu();
     }
 
-    private static void DeleteTask() 
+    private static void DeleteTask()
     {
         //If tasklist is empty
         if (TaskList.Count == 0)
@@ -128,7 +131,7 @@ public class Program
             Console.WriteLine("0. Return to Main Menu");
         }
         //Get user input for task number
-        Console.Write("Input Task No. to switch Completion Status: ");
+        Console.Write("Input Task No. to delete: ");
         int taskNo;
         //Check if user input is invalid, NaN or OOB.
         while (!int.TryParse(Console.ReadLine(), out taskNo) || taskNo < 0 || taskNo > TaskList.Count)
@@ -144,7 +147,7 @@ public class Program
         else
         {
             string confirm = "";
-            while (confirm != "Y" && confirm != "N") 
+            while (confirm != "Y" && confirm != "N")
             {
                 Console.Write("Are you sure you want to delete task No. " + taskNo + "? (Y/N): ");
                 confirm = Console.ReadLine().ToUpper();
@@ -154,18 +157,18 @@ public class Program
                     Console.WriteLine("Invalid input! Please enter 'Y' for Yes or 'N' for No.");
                 }
             }
-            
+
             if (confirm == "Y")
             {
                 TaskList.RemoveAt(taskNo - 1);
-                Console.WriteLine("Task deleted successfully! Returning to Main Menu...");
+                Console.WriteLine("Task deleted successfully!");
             }
             else if (confirm == "N")
             {
-                Console.WriteLine("Task deletion cancelled. Returning to Main Menu...");
+                Console.WriteLine("Task deletion cancelled.");
             }
 
-
+            ReturnToMainMenu();
         }
     }
 
@@ -180,7 +183,7 @@ public class Program
         else
         {
             // Table Header, needs further formatting to look nice
-            Console.WriteLine("All Tasks || Due Date || Status");
+            Console.WriteLine("\nAll Tasks || Due Date || Status");
             Console.WriteLine("----------------------------------------------------------"); ;
             //Loop thru TaskList list to cout all task
             for (int i = 0; i < TaskList.Count; i++)
@@ -188,9 +191,10 @@ public class Program
                 TaskList[i].PrintTask();
             }
         }
+        ReturnToMainMenu();
     }
 
-    private static void ChangeTaskStatus() 
+    private static void ChangeTaskStatus()
     {
         //If tasklist is empty
         if (TaskList.Count == 0)
@@ -206,7 +210,7 @@ public class Program
             for (int i = 0; i < TaskList.Count; i++)
             {
                 Console.Write(i + 1 + ". ");
-                TaskList[i].PrintTask(); 
+                TaskList[i].PrintTask();
             }
             Console.WriteLine("0. Return to Main Menu");
         }
@@ -225,13 +229,13 @@ public class Program
             Console.WriteLine("Returning to Main Menu...");
             return;
         }
-        else 
+        else
         {
             // Toggle completion status
             TaskList[taskNo - 1].IsCompleted = !TaskList[taskNo - 1].IsCompleted;
 
             Console.Write("Task No." + taskNo + " completion status updated to: ");
-            if (TaskList[taskNo - 1].IsCompleted == true) 
+            if (TaskList[taskNo - 1].IsCompleted == true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("COMPLETE\n");
@@ -243,10 +247,24 @@ public class Program
                 Console.Write("INCOMPLETE\n");
                 Console.ResetColor();
             }
-            Console.WriteLine("Returning to Main Menu...");
-            
+            //Console.WriteLine("Returning to Main Menu...");
+            ReturnToMainMenu();
         }
-        
+    }
+
+    private static void ReturnToMainMenu()
+    {
+        Console.WriteLine("==========================================================\n");
+        Console.WriteLine("Press Enter to return to the main menu...");
+
+        // Only allow the Enter key to proceed
+        while (Console.ReadKey(true).Key != ConsoleKey.Enter)
+        {
+            //Console.WriteLine("Invalid input! Press Enter to return to the main menu...");
+        }
+    }
+    private static void DebugTest() 
+    {
     }
 }
 
