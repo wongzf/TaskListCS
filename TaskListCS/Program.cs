@@ -58,6 +58,8 @@ public class Program
         }
     }
 
+    
+
     //Function to Create a task and add it to the TaskList List
     private static void AddTask() 
     {
@@ -95,32 +97,11 @@ public class Program
         {
             // Table Header, needs further formatting to look nice
             Console.WriteLine("\nAll Tasks || Due Date || Status");
-            
+            Console.WriteLine("---------------------------------------------");
             //Loop thru TaskList list to cout all task
             for (int i = 0; i < TaskList.Count; i++)
             {
-                string TaskText = TaskList[i].TaskText;
-                DateTime DueDate = TaskList[i].DueDate;
-                string IsCompletedText = "Incomplete!";
-                
-                Console.Write(TaskText + " || " + DueDate + " || ");
-                //Set Completed text instead of just True/False
-                if (TaskList[i].IsCompleted)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    IsCompletedText = "COMPLETE";
-                    Console.Write(IsCompletedText + "\n");
-                    Console.ResetColor();
-                }
-                else 
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    IsCompletedText = "INCOMPLETE";
-                    Console.Write(IsCompletedText + "\n");
-                    Console.ResetColor();
-                }
-
-                
+                TaskList[i].PrintTask();
             }
         }
     }
@@ -136,33 +117,12 @@ public class Program
         {
             // Table Header, needs further formatting to look nice
             Console.WriteLine("\nNo. || All Tasks || Due Date || Status");
-
+            Console.WriteLine("---------------------------------------------");
             //Loop thru TaskList list to cout all task
             for (int i = 0; i < TaskList.Count; i++)
             {
-                string TaskText = TaskList[i].TaskText;
-                DateTime DueDate = TaskList[i].DueDate;
-                string IsCompletedText = "INCOMPLETE";
-
-                Console.WriteLine(i + 1 + ". " + TaskText + " || " + DueDate + " || ");
-                
-                //Set Completed text instead of just True/False
-                if (TaskList[i].IsCompleted)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    IsCompletedText = "COMPLETE";
-                    Console.Write(IsCompletedText);
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    IsCompletedText = "INCOMPLETE";
-                    Console.Write(IsCompletedText);
-                    Console.ResetColor();
-                }
-
-                
+                Console.Write(i + 1 + ". ");
+                TaskList[i].PrintTask(); 
             }
             Console.WriteLine("0. Return to Main Menu");
         }
@@ -187,19 +147,19 @@ public class Program
             TaskList[taskNo - 1].IsCompleted = !TaskList[taskNo - 1].IsCompleted;
             string IsCompletedText = "INCOMPLETE";
 
-            Console.WriteLine("Task No." + taskNo + " completion status updated to: ");
+            Console.Write("Task No." + taskNo + " completion status updated to: ");
             if (TaskList[taskNo - 1].IsCompleted == true) 
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 IsCompletedText = "COMPLETE";
-                Console.Write(IsCompletedText);
+                Console.Write(IsCompletedText + "\n");
                 Console.ResetColor();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 IsCompletedText = "INCOMPLETE";
-                Console.Write(IsCompletedText);
+                Console.Write(IsCompletedText + "\n");
                 Console.ResetColor();
             }
             Console.WriteLine("Returning to Main Menu...");
@@ -226,5 +186,26 @@ public class Task
         TaskText = taskText;
         DueDate = dueDate;
         IsCompleted = isCompleted;
+    }
+
+    public void PrintTask() 
+    {
+        Console.Write(TaskText + " || " + DueDate + " || ");
+        string IsCompletedText;
+        //Set Completed text instead of just True/False
+        if (IsCompleted)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            IsCompletedText = "COMPLETE";
+            Console.Write(IsCompletedText + "\n");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            IsCompletedText = "INCOMPLETE";
+            Console.Write(IsCompletedText + "\n");
+            Console.ResetColor();
+        }
     }
 }
