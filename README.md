@@ -75,6 +75,13 @@ The following bonus/optional features are completed:
 
 ![Screenshot 2024-10-22 112941](https://github.com/user-attachments/assets/b7db3607-673e-4f47-aa99-ca455f3b7f3f)
 
+## Testing
+Potential Issues/edge cases will be documented here.
+
+| Problem    |  User inputs a number that is out-of-bounds (OOB) in any menu. E.g. User enters "79" in Main Menu or Status change menu.|
+| -------- | ------- |
+| Solution  |  Prompt will be displayed if OOB input is detected and asks user to try again.  |
+
 
 
 
