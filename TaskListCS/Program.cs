@@ -97,8 +97,21 @@ public class Program
      */
     private static void AddTask()
     {
-        Console.Write("Input Task Text: ");
-        var taskName = Console.ReadLine();
+        //Console.Write("Input Task Text: ");
+        //var taskName = Console.ReadLine();
+        
+        //Updated so user cannot enter a blank text
+        var taskName = "";
+        do
+        {
+            Console.Write("Enter Task Text: ");
+            taskName = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(taskName))
+            {
+                Console.WriteLine("Task text cannot be blank. Please enter a valid name.");
+            }
+        } while (string.IsNullOrWhiteSpace(taskName));
 
         //Change the input format to a more common DD-MM-YYYY instead of YYYY-MM-DD
         Console.Write("Enter Due Date (dd-mm-yyyy): ");
