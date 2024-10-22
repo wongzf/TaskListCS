@@ -82,6 +82,11 @@ Potential Issues/edge cases will be documented here.
 | -------- | ------- |
 | Solution  |  Prompt will be displayed if OOB input is detected and asks user to try again.  |
 
+| Problem    |  User doesn't enter any text for the task text and leaves it blank.|
+| -------- | ------- |
+| Solution  |  Prompt will be displayed to inform users that task text cannot be blank and to try again.  |
+
+
 
 
 
